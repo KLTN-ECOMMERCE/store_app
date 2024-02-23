@@ -11,13 +11,30 @@ class AppScreen extends StatefulWidget {
 }
 
 class _AppState extends State<AppScreen> {
+  final ScrollController _scrollController = ScrollController();
   int currentPageIndex = 0;
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Scaffold(
       bottomNavigationBar: NavigationBar(
         onDestinationSelected: (value) {
+          if (currentPageIndex == value) {
+            _scrollController.animateTo(
+              0.0,
+              duration: const Duration(
+                milliseconds: 500,
+              ),
+              curve: Curves.easeOut,
+            );
+          }
           setState(() {
             currentPageIndex = value;
           });
@@ -53,7 +70,9 @@ class _AppState extends State<AppScreen> {
         ],
       ),
       body: [
-        const HomeScreen(),
+        HomeScreen(
+          homeController: _scrollController,
+        ),
         const Text('2'),
         const Text('3'),
         const Text('4'),

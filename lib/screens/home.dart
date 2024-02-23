@@ -6,7 +6,12 @@ import 'package:store_app/widgets/category/category_item.dart';
 import 'package:store_app/widgets/product/product_item.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({
+    super.key,
+    required this.homeController,
+  });
+
+  final ScrollController homeController;
 
   @override
   State<HomeScreen> createState() {
@@ -113,7 +118,7 @@ class _HomeState extends State<HomeScreen> {
       backgroundColor: theme.colorScheme.background,
       body: SafeArea(
         child: SingleChildScrollView(
-          //controller: _scrollController,
+          controller: widget.homeController,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.start,
@@ -166,9 +171,9 @@ class _HomeState extends State<HomeScreen> {
                       margin: const EdgeInsets.all(2.0),
                       child: Icon(
                         Icons.circle,
-                        size: 12.0,
+                        size: 15,
                         color: pageNo == index
-                            ? Colors.indigoAccent
+                            ? categories.entries.elementAt(pageNo).value.color
                             : Colors.white,
                       ),
                     ),
