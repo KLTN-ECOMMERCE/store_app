@@ -71,15 +71,12 @@ class _HomeState extends State<HomeScreen> {
 
   void _selectCategoryItem(BuildContext context, String category) {}
 
-  PageController pageController = PageController();
-  int pageNo = 0;
+  PageController pageController = PageController(
+    initialPage: 0,
+    viewportFraction: 0.88,
+  );
 
-  @override
-  void initState() {
-    pageController = PageController(
-      initialPage: 0,
-      viewportFraction: 0.88,
-    );
+  void startTimer() {
     Timer.periodic(const Duration(seconds: 3), (timer) {
       if (pageNo == categories.length) {
         pageNo = 0;
@@ -93,7 +90,16 @@ class _HomeState extends State<HomeScreen> {
       );
       pageNo++;
     });
-    super.initState();
+  }
+
+  int pageNo = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (mounted) {
+      startTimer();
+    }
   }
 
   @override
